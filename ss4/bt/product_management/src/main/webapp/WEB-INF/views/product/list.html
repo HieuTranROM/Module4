@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách sản phẩm</title>
+    <meta charset="UTF-8">
+    <th:block th:replace="~{common/template::linkBootstrap}">
+    </th:block>
+</head>
+<body>
+<nav th:replace="~{common/template::navbar}">
+
+</nav>
+<div class="container">
+    <p style="color: blue" th:text="${message}"></p>
+    <button class="btn btn-primary mt-4" onclick="window.location.href='/product/create'">Thêm</button>
+    <form th:action="@{/product/search}" method="get">
+        <div class="form-group">
+            <input type="text" name="name" class="form-control" placeholder="Search for products...">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Số thứ tự</th>
+            <th>Mã</th>
+            <th>Tên sản phẩm</th>
+            <th>Giá</th>
+            <th>Mô tả</th>
+            <th>Nhà sản xuất</th>
+            <th>Chức năng</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product, iterStat: ${products}">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.description}"></td>
+            <td th:text="${product.produce}"></td>
+            <td>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-warning mr-2"
+                            th:onclick="'window.location.href = \'' + @{/product/update/{id}(id=${product.id})} + '\''">Sửa
+                    </button>
+                    <form th:action="@{/product/delete/{id}(id=${product.id})}" method="post" th:onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');" class="d-inline">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button type="submit" class="btn btn-danger mr-2">Xóa</button>
+                    </form>
+                    <button class="btn btn-info"
+                            th:onclick="'window.location.href = \'' + @{/product/detail/{id}(id=${product.id})} + '\''">Chi tiết
+                    </button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+
+</html>

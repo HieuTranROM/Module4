@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách sản phẩm</title>
+    <meta charset="UTF-8">
+    <th:block th:replace="~{common/template::linkBootstrap}">
+    </th:block>
+</head>
+<body>
+<nav th:replace="~{common/template::navbar}">
+
+</nav>
+<div class="container">
+    <form class="w-50 mx-auto mt-5" th:object="${product}" method="post">
+        <input type="hidden" name="action" value="update">
+        <h1 class="text-center my-5">Chỉnh Sửa Sản Phẩm</h1>
+        <div class="mb-3">
+            <label for="id" class="form-label">ID</label>
+            <input type="text" class="form-control" id="id" name="id" th:field="*{id}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Tên sản phẩm</label>
+            <input type="text" class="form-control" id="name" name="name" th:field="*{name}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="price">Giá</label>
+            <input type="number" class="form-control" id="price" name="price" th:field="*{price}" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Mô tả</label>
+            <input type="text" class="form-control" id="description" name="description" th:field="*{description}" required>
+        </div>
+        <div class="mb-3">
+            <label for="produce" class="form-label">Nhà sản xuất</label>
+            <input type="text" class="form-control" id="produce" name="produce" th:field="*{produce}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Xác Nhận</button>
+    </form>
+</div>
+</body>
+</html>
