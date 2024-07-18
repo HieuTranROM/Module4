@@ -41,12 +41,12 @@
             <td th:text="${product.produce}"></td>
             <td>
                 <div class="d-flex justify-content-between">
-                    <button class="btn btn-warning mr-2"
+                    <button class="btn btn-warning"
                             th:onclick="'window.location.href = \'' + @{/product/update/{id}(id=${product.id})} + '\''">Sửa
                     </button>
                     <form th:action="@{/product/delete/{id}(id=${product.id})}" method="post" th:onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');" class="d-inline">
                         <input type="hidden" name="_method" value="delete"/>
-                        <button type="submit" class="btn btn-danger mr-2">Xóa</button>
+                        <button type="submit" class="btn btn-danger">Xóa</button>
                     </form>
                     <button class="btn btn-info"
                             th:onclick="'window.location.href = \'' + @{/product/detail/{id}(id=${product.id})} + '\''">Chi tiết

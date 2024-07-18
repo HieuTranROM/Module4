@@ -4,69 +4,59 @@ import com.codegym.product_management.models.Product;
 import com.codegym.product_management.repositories.IProductRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository(value = "productRepository")
 public class ProductRepository implements IProductRepository {
 
     private static List<Product> products = new ArrayList<>();
-    static {
-        products.add(new Product(1,"Iphone12",10000,"Tot lam","Apple"));
-        products.add(new Product(2,"Iphone13",10000,"Tot lam","Apple"));
-        products.add(new Product(3,"Iphone14",10000,"Tot lam","Apple"));
-        products.add(new Product(4,"Nokia",2000,"Tot lam","Nokia"));
-        products.add(new Product(5,"SamSung",50000,"Hoi cui","SamSung"));
-    }
 
     @Override
     public List<Product> findAll() {
+        List<Product> products = BaseRepository.entityManager.createQuery("select s from product s", Product.class).getResultList();
         return products;
     }
 
     @Override
     public void save(Product product) {
-        product.setId(products.get(products.size()-1).getId() + 1);
-        products.add(product);
+        EntityTransaction transaction = BaseRepository.entityManager.getTransaction();
+        transaction.begin();
+        BaseRepository.entityManager.persist(product);
+        transaction.commit();
     }
 
     @Override
     public Product findById(int id) {
-        for(Product product : products) {
-            if(product.getId() == id) {
-                return product;
-            }
-        }
-        return null;
+        return BaseRepository.entityManager.find(Product.class, id);
     }
 
     @Override
     public void update(Product product) {
-        for(Product p : products) {
-            if(p.getId() == product.getId()) {
-                p.setName(product.getName());
-                p.setPrice(product.getPrice());
-                p.setDescription(product.getDescription());
-                p.setProduce(product.getProduce());
-                break;
-            }
-        }
+        EntityTransaction transaction = BaseRepository.entityManager.getTransaction();
+        transaction.begin();
+        BaseRepository.entityManager.merge(product);
+        transaction.commit();
     }
 
     @Override
     public void delete(int id) {
-        products.removeIf(product -> product.getId() == id);
+        EntityTransaction transaction = BaseRepository.entityManager.getTransaction();
+        transaction.begin();
+        Product product = BaseRepository.entityManager.find(Product.class, id);
+        if (product != null) {
+            BaseRepository.entityManager.remove(product);
+        }
+        transaction.commit();
     }
 
     @Override
     public List<Product> findByName(String name) {
-        List<Product> result = new ArrayList<>();
-            for (Product product : products) {
-                if (product.getName().toLowerCase().contains(name.toLowerCase())) {
-                    result.add(product);
-                }
-            }
-        return result;
-        }
+        TypedQuery<Product> query = BaseRepository.entityManager.createQuery("select s from product s where s.name = :name", Product.class);
+        query.setParameter("name", name);
+        List<Product> products = query.getResultList();
+        return products;
+    }
 }
