@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách học sinh</title>
+    <meta charset="UTF-8">
+    <th:block th:replace="~{common/template::linkBootstrap}">
+    </th:block>
+</head>
+<body>
+<nav th:replace="~{common/template::navbar}">
+
+</nav>
+<div class="container">
+    <p style="color: blue" th:text="${message}"></p>
+    <button class="btn btn-primary mt-4" onclick="window.location.href='/blog/create'">Thêm</button>
+    <form action="/blog/search">
+        <input class="form-control" th:value="${nameBlog}" name="nameBlog" style="width: 50%">
+        <button type="submit" class="btn btn-info">Tìm kiếm</button>
+    </form>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Số thứ tự</th>
+            <th>Mã</th>
+            <th>Tên Blog</th>
+            <th>Tác giả</th>
+            <th>Tiêu đề</th>
+            <th>Nội dung</th>
+            <th>Chức năng</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="blog, iterStat: ${blogs}">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${blog.id}"></td>
+            <td th:text="${blog.name}"></td>
+            <td th:text="${blog.author}"></td>
+            <td th:text="${blog.title}"></td>
+            <td th:text="${blog.content}"></td>
+            <td>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-warning"
+                            th:onclick="'window.location.href = \'' + @{/blog/update/{id}(id=${blog.id})} + '\''">Sửa
+                    </button>
+                    <form th:action="@{/blog/delete/{id}(id=${blog.id})}" method="post" th:onsubmit="return confirm('Bạn có chắc muốn xóa bài blog này không ?');" class="d-inline">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button type="submit" class="btn btn-danger">Xóa</button>
+                    </form>
+                    <button class="btn btn-info"
+                            th:onclick="'window.location.href = \'' + @{/blog/detail/{id}(id=${blog.id})} + '\''">Chi tiết
+                    </button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+
+</html>

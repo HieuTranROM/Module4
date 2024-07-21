@@ -6,13 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository(value = "productRepository")
 public class ProductRepository implements IProductRepository {
-
-    private static List<Product> products = new ArrayList<>();
 
     @Override
     public List<Product> findAll() {

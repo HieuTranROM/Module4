@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết bài Blog</title>
+    <th:block th:replace="~{common/template::linkBootstrap}"></th:block>
+</head>
+<body>
+<nav th:replace="~{common/template::navbar}"></nav>
+<div class="container">
+    <h2>Chi tiết bài Blog</h2>
+    <div>
+        <p><strong>Mã blog:</strong> <span th:text="${blog.id}"></span></p>
+        <p><strong>Tên Blog:</strong> <span th:text="${blog.name}"></span></p>
+        <p><strong>Tác giả:</strong> <span th:text="${blog.author}"></span></p>
+        <p><strong>Tiêu đề:</strong> <span th:text="${blog.title}"></span></p>
+        <p><strong>Nội dung:</strong> <span th:text="${blog.content}"></span></p>
+    </div>
+    <button class="btn btn-secondary" onclick="window.location.href='/blog'">Quay lại</button>
+</div>
+</body>
+</html>
