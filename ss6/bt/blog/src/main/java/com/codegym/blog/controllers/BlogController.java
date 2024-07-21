@@ -69,6 +69,13 @@ public class BlogController {
         return "blog/update";
     }
 
+    @PostMapping("/update/{id}")
+    public String save(Blog blog, RedirectAttributes redirect) {
+        blogService.save(blog);
+        redirect.addFlashAttribute("message", "Cập nhật thành công");
+        return "redirect:/blog";
+    }
+
     @GetMapping("/search")
     public String searchBlog(@RequestParam("nameBlog") String nameBlog, Model model) {
         List<Blog> blogs = blogService.findAllByName(nameBlog);

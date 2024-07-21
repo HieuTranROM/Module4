@@ -53,6 +53,7 @@ public class ProductController {
         return "/product/update";
     }
 
+
     @PostMapping("/update/{id}")
     public String updateProduct(@PathVariable("id") int id,
                                 @RequestParam("name") String name,
