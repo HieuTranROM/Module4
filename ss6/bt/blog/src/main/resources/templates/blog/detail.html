@@ -14,6 +14,7 @@
         <p><strong>Tên Blog:</strong> <span th:text="${blog.name}"></span></p>
         <p><strong>Tác giả:</strong> <span th:text="${blog.author}"></span></p>
         <p><strong>Tiêu đề:</strong> <span th:text="${blog.title}"></span></p>
+        <p><strong>Thể loại</strong> <span th:text="${blog.category.name}"></span></p>
         <p><strong>Nội dung:</strong> <span th:text="${blog.content}"></span></p>
     </div>
     <button class="btn btn-secondary" onclick="window.location.href='/blog'">Quay lại</button>

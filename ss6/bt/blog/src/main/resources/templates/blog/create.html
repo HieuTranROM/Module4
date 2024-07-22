@@ -25,6 +25,12 @@
         <input type="text" class="form-control" id="title" name="title" th:field="*{title}"/>
     </div>
     <div class="mb-3">
+        <label class="form-label" for="title">Thể loại</label>
+        <select th:field="*{category}" class="form-select">
+            <option th:each="category: ${categories}" th:text="${category.name}" th:value="${category.id}"></option>
+        </select>
+    </div>
+    <div class="mb-3">
         <label for="content" class="form-label">Nội dung</label>
         <input type="text" class="form-control" id="content" name="content" th:field="*{content}"/>
     </div>

@@ -21,9 +21,17 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="/blog">Trang chủ</a>
+        <a class="nav-link active" aria-current="page" href="/blog">Blog</a>
       </div>
     </div>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" th:value="${nameBlog}" name="nameBlog">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+<!--    <form action="/blog">-->
+<!--      <input class="form-control" th:value="${nameBlog}" name="nameBlog" style="width: 50%">-->
+<!--      <button type="submit" class="btn btn-info">Tìm kiếm</button>-->
+<!--    </form>-->
   </div>
 </nav>
 </body>

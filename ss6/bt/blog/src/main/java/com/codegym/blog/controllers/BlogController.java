@@ -2,8 +2,11 @@ package com.codegym.blog.controllers;
 
 import com.codegym.blog.models.Blog;
 import com.codegym.blog.services.IBlogService;
+import com.codegym.blog.services.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,15 +32,17 @@ public class BlogController {
     @Autowired
     private IBlogService blogService;
 
+    @Autowired
+    private ICategoryService categoryService;
+
     @GetMapping("")
-    public String displayAllStudents(Model model) {
-        List<Blog> blogs = blogService.findAll();
+    public String displayAllBlogs(Model model,
+                                     @RequestParam(value = "nameBlog", defaultValue = "") String nameBlog,
+                                     @RequestParam(value = "page", defaultValue = "0")int page) {
+        Sort sort = Sort.by("name").descending();
+        Page<Blog> blogs = blogService.findAllByName(nameBlog, PageRequest.of(page, 3, sort));
         model.addAttribute("blogs", blogs);
-//        ModelAndView modelAndView = new ModelAndView("student/list");
-//        modelAndView.addObject("students", studentService.findAll());
-//        modelAndView.addObject("student", new Student());
-//        return new ModelAndView("student/list", "students", studentService.findAll());
-//        Model, ModelMap và ModelAndView
+        model.addAttribute("nameBlog", nameBlog);
         return "blog/list";
     }
 
@@ -45,6 +50,7 @@ public class BlogController {
     @GetMapping("/create")
     public String viewCreate(Model model) {
         model.addAttribute("blog", new Blog());
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "blog/create";
     }
 
@@ -66,6 +72,7 @@ public class BlogController {
     public String viewUpdate(@PathVariable int id, Model model) {
         Blog blog = blogService.findById(id);
         model.addAttribute("blog", blog);
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "blog/update";
     }
 
@@ -76,13 +83,13 @@ public class BlogController {
         return "redirect:/blog";
     }
 
-    @GetMapping("/search")
-    public String searchBlog(@RequestParam("nameBlog") String nameBlog, Model model) {
-        List<Blog> blogs = blogService.findAllByName(nameBlog);
-        model.addAttribute("blogs", blogs);
-        model.addAttribute("nameBlog", nameBlog);
-        return "blog/list";
-    }
+//    @GetMapping("/search")
+//    public String searchBlog(@RequestParam("nameBlog") String nameBlog, Model model) {
+//        List<Blog> blogs = blogService.findAllByName(nameBlog);
+//        model.addAttribute("blogs", blogs);
+//        model.addAttribute("nameBlog", nameBlog);
+//        return "blog/list";
+//    }
 
     @PostMapping("/delete/{id}")
     public String deleteBlog(@PathVariable int id, RedirectAttributes redirect) {
