@@ -26,18 +26,18 @@ public class SongController {
         return "song/index";
     }
 
-    @GetMapping("/result")
+    @GetMapping("/create")
     public String showAddForm(Model model) {
         model.addAttribute("songDTO", new SongDTO());
-        return "song/result";
+        return "song/create";
     }
 
-    @PostMapping("/result")
+    @PostMapping("/create")
     public String addSong(@Validated @ModelAttribute("songDTO") SongDTO songDTO,
                           BindingResult bindingResult,
                           RedirectAttributes redirect) {
         if (bindingResult.hasErrors()) {
-            return "song/result";
+            return "song/create";
         }
         Song song = new Song();
         BeanUtils.copyProperties(songDTO, song);
@@ -61,7 +61,7 @@ public class SongController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateSong(@PathVariable("id") Long id, @Valid @ModelAttribute("songDTO") SongDTO songDTO, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+    public String updateSong(@PathVariable("id") Long id, @Valid @ModelAttribute("songDTO") SongDTO songDTO, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "song/update";
         }

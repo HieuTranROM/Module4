@@ -11,7 +11,7 @@
 <body>
 <nav th:replace="~{common/template::navbar}"></nav>
 <div class="container">
-    <form method="post" th:action="@{/song/result}" th:object="${songDTO}">
+    <form method="post" th:action="@{/song/create}" th:object="${songDTO}">
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control" id="title" th:field="*{title}"/>
