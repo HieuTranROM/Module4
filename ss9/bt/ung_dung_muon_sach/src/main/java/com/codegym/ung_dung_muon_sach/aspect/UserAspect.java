@@ -1,11 +1,14 @@
 package com.codegym.ung_dung_muon_sach.aspect;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
 @Aspect
@@ -24,9 +27,6 @@ public class UserAspect {
         return result;
     }
 
-
-
-
     @Pointcut("execution (* com.codegym.ung_dung_muon_sach.controller.user.UserController.*(..))")
     public void loginController(){
     }
@@ -35,7 +35,7 @@ public class UserAspect {
         String methodName=joinPoint.getSignature().getName();
         logger.info("==========Have a people pay a visit to library : ");
         Object result=joinPoint.proceed();
-        logger.info("==========User use method name : " +methodName);
+        logger.info("==========User use method name : "+ methodName + " at "+ LocalDateTime.now());
         return result;
     }
 }
