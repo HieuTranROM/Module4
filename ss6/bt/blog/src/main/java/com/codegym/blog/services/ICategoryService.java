@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface ICategoryService {
     List<Category> getAllCategories();
+
+    List<Category> findAll();
+
+    Category findById(Long id);
 }

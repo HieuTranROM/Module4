@@ -20,4 +20,6 @@ public interface IBlogService {
     void deleteById(int id);
 
     Blog findById(int id);
+
+    List<Blog> findByCategoryId(Long id);
 }
