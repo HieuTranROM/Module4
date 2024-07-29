@@ -12,6 +12,7 @@ import java.util.List;
 public class BookService implements IBookService {
     @Autowired
     private BookRepository repository;
+
     @Override
     public boolean create(Book book) {
         repository.save(book);
@@ -32,5 +33,10 @@ public class BookService implements IBookService {
     @Override
     public List<Book> getAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public int getBookCount() {
+        return repository.countBooks();
     }
 }
