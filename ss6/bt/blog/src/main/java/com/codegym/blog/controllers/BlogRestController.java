@@ -4,6 +4,8 @@ package com.codegym.blog.controllers;
 import com.codegym.blog.models.Blog;
 import com.codegym.blog.services.IBlogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,4 +58,12 @@ public class BlogRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Blog>> searchBlogs(@RequestParam(value = "nameBlog", defaultValue = "") String nameBlog) {
+        List<Blog> blogs = blogService.findAllByName(nameBlog, PageRequest.of(0, 20, Sort.by("name").descending())).getContent();
+        return new ResponseEntity<>(blogs, HttpStatus.OK);
+    }
+
 }
+

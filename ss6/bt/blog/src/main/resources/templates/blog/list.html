@@ -3,70 +3,55 @@
 <head>
     <title>Danh sách blog</title>
     <meta charset="UTF-8">
-    <th:block th:replace="~{common/template::linkBootstrap}">
-    </th:block>
+    <th:block th:replace="~{common/template::linkBootstrap}"></th:block>
 </head>
 <body>
-<nav th:replace="~{common/template::navbar}">
-
-</nav>
+<nav th:replace="~{common/template::navbar}"></nav>
 <div class="container">
     <p style="color: blue" th:text="${message}"></p>
     <button class="btn btn-primary mt-4" onclick="window.location.href='/blog/create'">Thêm</button>
-
-    <table class="table table-bordered">
+    <form id="searchForm" class="d-flex my-3">
+        <input class="form-control me-2" type="text" id="searchQuery" placeholder="Tìm kiếm bài viết" aria-label="Search" name="nameBlog">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+    <table class="table table-bordered" id="blogTable">
         <thead>
         <tr>
             <th>Số thứ tự</th>
             <th>Mã</th>
             <th>Tên Blog</th>
-            <th>Tác giả</th>
             <th>Tiêu đề</th>
+            <th>Tác giả</th>
+            <th>Nội dung</th>
             <th>Thể loại</th>
             <th>Chức năng</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="blog, iterStat: ${blogs}">
-            <td th:text="${iterStat.count}"></td>
+        <tr th:each="blog, iterStat: ${blogs.content}">
+            <td th:text="${iterStat.count + (blogs.number * blogs.size)}"></td>
             <td th:text="${blog.id}"></td>
             <td th:text="${blog.name}"></td>
-            <td th:text="${blog.author}"></td>
             <td th:text="${blog.title}"></td>
+            <td th:text="${blog.author}"></td>
+            <td th:text="${blog.content}"></td>
             <td th:text="${blog.category.name}"></td>
             <td>
                 <div class="d-flex justify-content-between">
-                    <button class="btn btn-warning"
-                            th:onclick="'window.location.href = \'' + @{/blog/update/{id}(id=${blog.id})} + '\''">Sửa
-                    </button>
-                    <form th:action="@{/blog/delete/{id}(id=${blog.id})}" method="post" th:onsubmit="return confirm('Bạn có chắc muốn xóa bài blog này không ?');" class="d-inline">
-                        <input type="hidden" name="_method" value="delete"/>
-                        <button type="submit" class="btn btn-danger">Xóa</button>
-                    </form>
-                    <button class="btn btn-info"
-                            th:onclick="'window.location.href = \'' + @{/blog/detail/{id}(id=${blog.id})} + '\''">Chi tiết
-                    </button>
+                    <button class="btn btn-warning" th:onclick="'window.location.href = \'' + @{/blog/update/{id}(id=${blog.id})} + '\''">Sửa</button>
+                    <button class="btn btn-danger deleteBlogButton" th:data-id="${blog.id}">Xóa</button>
+                    <button class="btn btn-info" th:onclick="'window.location.href = \'' + @{/blog/detail/{id}(id=${blog.id})} + '\''">Chi tiết</button>
                 </div>
             </td>
         </tr>
         </tbody>
     </table>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item" th:if="${blogs.hasPrevious()}">
-                <a class="page-link" th:href="@{/blog(page=${blogs.number - 1}, nameBlog=${nameBlog})}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
 
-                </a>
-            </li>
-            <li class="page-item" th:if="${blogs.hasNext()}">
-                <a class="page-link" th:href="@{/blog(page=${blogs.number + 1}, nameBlog=${nameBlog})}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <!-- Load More Button -->
+    <button id="loadMore" class="btn btn-secondary mt-4">Tải thêm</button>
+
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/ajax-functions.js"></script>
 </body>
-
 </html>

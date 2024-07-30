@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
-//import java.util.Optional;
 
 public interface IBlogService {
     List<Blog> findAll();
@@ -15,11 +14,13 @@ public interface IBlogService {
 
     Page<Blog> findAllByName(String name, Pageable pageable);
 
-//    Optional<Blog> findById(int id);
-
     void deleteById(int id);
 
     Blog findById(int id);
 
+    Optional<Blog> findByIdOptional(int id);
+
     List<Blog> findByCategoryId(Long id);
+
+    Page<Blog> findByCategoryId(Long id, Pageable pageable);
 }
