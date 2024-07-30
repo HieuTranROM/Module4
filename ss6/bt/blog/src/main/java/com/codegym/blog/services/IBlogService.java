@@ -22,5 +22,4 @@ public interface IBlogService {
 
     List<Blog> findByCategoryId(Long id);
 
-    Page<Blog> findByCategoryId(Long id, Pageable pageable);
 }
